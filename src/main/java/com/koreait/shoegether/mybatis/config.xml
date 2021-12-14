@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias	type="com.koreait.shoegether.domain.Admin" alias="Admin" />
+		<typeAlias	type="com.koreait.shoegether.domain.Product" alias="Product" />
+		<typeAlias	type="com.koreait.shoegether.domain.TopCategory" alias="TopCategory" />
+		<typeAlias	type="com.koreait.shoegether.domain.SubCategory" alias="SubCategory" />
+		<typeAlias	type="com.koreait.shoegether.domain.Board" alias="Board" />
+		<typeAlias	type="com.koreait.shoegether.domain.Comments" alias="Comments" />
+		<typeAlias	type="com.koreait.shoegether.domain.Member" alias="Member" />
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="com/koreait/shoegether/mybatis/AdminMapper.xml" />
+		<mapper resource="com/koreait/shoegether/mybatis/ProductMapper.xml" />
+		<mapper resource="com/koreait/shoegether/mybatis/TopCategoryMapper.xml" />
+		<mapper resource="com/koreait/shoegether/mybatis/SubCategoryMapper.xml" />
+		<mapper resource="com/koreait/shoegether/mybatis/BoardMapper.xml" />
+		<mapper resource="com/koreait/shoegether/mybatis/CommentsMapper.xml" />
+		<mapper resource="com/koreait/shoegether/mybatis/MemberMapper.xml" />
+	</mappers>
+</configuration>

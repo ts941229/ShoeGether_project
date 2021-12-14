@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Member">
+	<select id="login" resultType="Member" parameterType="Member">
+		 select * from member where host_id=#{host_id} and password=#{password}
+		<!-- select * from member where host_id='test1' and password='1234'; -->
+	</select>
+	
+	
+	<insert id="insert" parameterType="Member">
+		insert into member(host_id,password,name, auth) values(#{host_id},#{password},#{name},#{auth})
+	</insert>
+</mapper>

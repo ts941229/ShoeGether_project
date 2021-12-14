@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+	<!-- DataSource -->
+	<jee:jndi-lookup 
+		id="dataSource" 
+		jndi-name="jndi/mysql" 
+		resource-ref="true"/>
+	
+	<!-- 트랜잭션 매니저 -->
+	<bean 
+		id="dataSourceTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource"/>
+	
+	<!-- SqlSessionFactoryBean -->
+	<bean
+		id="sqlSessionFactoryBean"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:configLocation="classpath:com/koreait/shoegether/mybatis/config.xml"/>
+	
+	<!-- SqlSessionTemplate -->
+	<bean
+		id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactoryBean"/>	
+	</bean>
+	
+	
+	<!-- 핸들러 for 잭슨 -->
+	<bean id="handlerAdapter" 
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list value-type="java.util.ArrayList">
+				<ref bean="mappingJackson2HttpMessageConverter"/>
+			</list>
+		</property>		
+	</bean>
+	
+	<!-- jackson binder 등록 컨버터 -->
+	<bean id="mappingJackson2HttpMessageConverter" 
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<value>application/json;charset=utf-8</value>
+		</property>
+	</bean>
+	
+	<context:component-scan base-package="com.koreait.shoegether.model"/>
+	
+	<!-- 스프링은 아파치 파일업로드를 사용함, 업로드를 자동적으로 처리해주는 빈을 등록 -->
+	<bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+		
+</beans>

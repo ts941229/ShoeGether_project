@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TopCategory">
+
+	<select id="selectAll" resultType="TopCategory">
+		select * from topcategory order by topcategory_id asc
+	</select>
+	
+	<select id="select" parameterType="int" resultType="TopCategory">
+		select * from topcategory where topcategory_id = #{topcategory_id}
+	</select>
+	
+	
+	<resultMap type="TopCategory" id="TopSubCollection">
+		<id column="topcaetgory_id" property="topcategory_id"/>
+		<result column="top_name" property="top_name"/>
+		<collection column="topcategory_id" property="subList" javaType="java.util.List" ofType="SubCategory" select="SubCategory.selectByTop"></collection>
+	</resultMap>
+	
+	<select id="selectChild" resultMap="TopSubCollection">
+		select topcategory_id, top_name from topcategory order by topcategory_id asc
+	</select>
+</mapper>

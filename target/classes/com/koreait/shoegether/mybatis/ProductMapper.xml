@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Product">
+	<insert id="insert" parameterType="Product">
+		insert into product(subcategory_id, name, price, detail, prod_img)
+		values(#{subcategory_id}, #{name}, #{price}, #{detail}, #{prod_img})
+	</insert>
+	
+	<resultMap type="Product" id="SubCategoryProduct">
+		<id column="product_id" property="product_id"/>
+		<result column="name" property="name"/>
+		<result column="detail" property="detail"/>
+		<result column="price" property="price"/>
+		<result column="prod_img" property="prod_img"/>
+		
+		<association column="subcategory_id" property="subCategory" select="SubCategory.select"/>
+	</resultMap>
+	
+	<select id="selectAll" resultMap="SubCategoryProduct">
+		select * from product order by product_id asc
+	</select>
+	
+	<select id="selectOne" parameterType="int" resultType="Product">
+		select * from product where product_id=#{product_id}
+	</select>
+	
+	<select id="selectAllBySub" parameterType="int" resultType="Product">
+		select * from product where subcategory_id=#{subcategory_id}
+	</select>
+	
+	<update id="update" parameterType="Product">
+		update product set subcategory_id=#{subcategory_id}, name=#{name}, price=#{price}, detail=#{detail}, prod_img=#{prod_img}
+		where product_id=#{product_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from product where product_id=#{product_id}
+	</delete>
+	
+</mapper>
